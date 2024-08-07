@@ -28,16 +28,17 @@ const fragShader = `
   void main() {
       vec3 finalColor = vec3(0.0, 0.0, 0.0);
 
-      // If rendering the shadow, render cloud in grayscale
+      // If rendering the shadow, render cloud in black
       if (isShadow == true){
-        float u_colorFactor = 0.1;  // 0.0 = grayscale, 1.0 = original
-        float grey = 0.21 * color.x + 0.71 * color.y + 0.07 * color.z;
+        // NOTE: commented code is for grayscale calculation, no longer used
+        // float u_colorFactor = 0.1;  // 0.0 = grayscale, 1.0 = original
+        // float grey = 0.21 * color.x + 0.71 * color.y + 0.07 * color.z;
 
-        float red = color.r * u_colorFactor + grey * (1.0 - u_colorFactor);
-        float green = color.g * u_colorFactor + grey * (1.0 - u_colorFactor);
-        float blue = color.b * u_colorFactor + grey * (1.0 - u_colorFactor);
+        // float red = color.r * u_colorFactor + grey * (1.0 - u_colorFactor);
+        // float green = color.g * u_colorFactor + grey * (1.0 - u_colorFactor);
+        // float blue = color.b * u_colorFactor + grey * (1.0 - u_colorFactor);
 
-        finalColor = vec3(red, green, blue);
+        finalColor = vec3(.0, .0, .0);
       } else {
         finalColor = color;
       }
@@ -103,7 +104,10 @@ export class ColorCloud {
         positions.push(x, y, z);
         compteur++;
       }
-    geometry.setAttribute("position", new THREE.Float32BufferAttribute(positions, 3));
+    geometry.setAttribute(
+      "position",
+      new THREE.Float32BufferAttribute(positions, 3)
+    );
     geometry.computeBoundingSphere();
 
     const points = new THREE.Points(geometry, colorSpaceMaterial);
